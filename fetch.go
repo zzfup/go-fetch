@@ -8,58 +8,41 @@ import (
 	"time"
 )
 
-func newDefaultOptions() Options {
-	return Options{
-		Method: "GET",
-		Header: map[string]string{
-			"Accept-Encoding": "gzip,deflate",
-			"Accept":          "*/*",
-		},
-		Body:     nil,
-		Redirect: "follow",
-		Timeout:  20 * time.Millisecond,
-		Compress: true,
-		Size:     0,
-		Agent:    nil,
-	}
-}
+// Fetch function
+// url: Absolute url
+// op: Fetch options
+func Fetch(url string, op Options) (Resp, error) {
+	defaultOp := newDefaultOptions()
+	defaultOp.Method = op.Method
+	defaultOp.Header = op.Header
+	defaultOp.Body = op.Body
+	defaultOp.Timeout = op.Timeout
 
-// Fetch request url
-func Fetch(url string, option Options) (Resp, error) {
-	defaultOptions := newDefaultOptions()
-	defaultOptions.Method = option.Method
-	defaultOptions.Header = option.Header
-	defaultOptions.Body = option.Body
-	defaultOptions.Redirect = option.Redirect
-	defaultOptions.Timeout = option.Timeout
-	defaultOptions.Compress = option.Compress
-	defaultOptions.Size = option.Size
-	defaultOptions.Agent = option.Agent
-
-	client := http.Client{
+	// create a new http client
+	client := &http.Client{
 		Transport: &http.Transport{
 			Proxy: http.ProxyFromEnvironment,
 			DialContext: (&net.Dialer{
-				Timeout:   defaultOptions.Timeout,
-				KeepAlive: defaultOptions.Timeout,
+				Timeout:   defaultOp.Timeout,
+				KeepAlive: defaultOp.Timeout,
 				DualStack: true,
 			}).DialContext,
 			MaxIdleConns:          100,
-			IdleConnTimeout:       defaultOptions.Timeout,
-			TLSHandshakeTimeout:   defaultOptions.Timeout,
-			ExpectContinueTimeout: defaultOptions.Timeout,
+			IdleConnTimeout:       defaultOp.Timeout,
+			TLSHandshakeTimeout:   defaultOp.Timeout,
+			ExpectContinueTimeout: 1 * time.Second,
 		},
-		Timeout: defaultOptions.Timeout,
+		Timeout: defaultOp.Timeout,
 	}
-
-	req, err := http.NewRequest(defaultOptions.Method, url, bytes.NewReader(defaultOptions.Body))
+	req, err := http.NewRequest(defaultOp.Method, url, bytes.NewReader(defaultOp.Body))
 	if err != nil {
 		return Resp{}, err
 	}
-	for k, v := range defaultOptions.Header {
+	// set header
+	for k, v := range defaultOp.Header {
 		req.Header.Set(k, v)
 	}
-
+	// send request
 	resp, err := client.Do(req)
 	if err != nil {
 		return Resp{}, err
