@@ -35,7 +35,7 @@ you can also create an Options, like this:
 
 ```golang
 options := fetch.Options{
-	Method: "POST",
+    Method: "POST",
     Header: headers,  // your custom header, its type is map[string]string
     Body: payload, // your request body, its type is []byte
 }
@@ -72,25 +72,25 @@ var headers = map[string]string{
 }
 
 func main(){
-    url := "https://www.example.com"
-    options := fetch.Options{
+    	url := "https://www.example.com"
+    	options := fetch.Options{
 		Method: "GET",
-        Header: headers,
-        Timeout: 2 * time.Second,
-	}
+        	Header: headers,
+        	Timeout: 2 * time.Second,
+    	}
 
-    resp, err := fetch.Fetch(url, options)
+    	resp, err := fetch.Fetch(url, options)
 	if err != nil {
 		return  err
 	}
 
-    fmt.Println(resp.StatusCode)
-    fmt.Println(resp.ToString)
-    var j struct{
-        Test string `json:"test"`
-    }
-    err := resp.BindJSON(&j)
-    fmt.Println(j)
+    	fmt.Println(resp.StatusCode)
+    	fmt.Println(resp.ToString)
+    	var j struct{
+        	Test string `json:"test"`
+    	}
+    	err := resp.BindJSON(&j)
+    	fmt.Println(j)
 }
 ```
 
@@ -107,28 +107,28 @@ var headers = map[string]string{
 }
 
 func main(){
-    url := "https://www.example.com"
+    	url := "https://www.example.com"
 
-    payload, err := json.Marshal(a) // a can be a struct or a map
+    	payload, err := json.Marshal(a) // a can be a struct or a map
 
-    options := fetch.Options{
+    	options := fetch.Options{
 		Method: "POST",
-        // Header: headers,
-        Body: payload
-        // Timeout: 2 * time.Second,
+        	// Header: headers,
+        	Body: payload
+        	// Timeout: 2 * time.Second,
 	}
 
-    resp, err := fetch.Fetch(url, options)
+    	resp, err := fetch.Fetch(url, options)
 	if err != nil {
 		return  err
 	}
 
-    fmt.Println(resp.StatusCode)
-    fmt.Println(resp.ToString)
-    var j struct{
-        Test string `json:"test"`
-    }
-    err := resp.BindJSON(&j)
-    fmt.Println(j)
+    	fmt.Println(resp.StatusCode)
+    	fmt.Println(resp.ToString)
+    	var j struct{
+        	Test string `json:"test"`
+    	}
+    	err := resp.BindJSON(&j)
+    	fmt.Println(j)
 }
 ```
