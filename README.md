@@ -18,12 +18,12 @@ go get -u github.com/zzfup/go-fetch
   ```golang
   Options{
   	Method: "GET",
-	Header: map[string]string{
+  	Header: map[string]string{
   		"Accept-Encoding": "gzip,deflate",
   		"Accept":          "*/*",
   	},
- 	Body:    nil,
-	Timeout: 20 * time.Millisecond,
+   	Body:    nil,
+  	Timeout: 20 * time.Millisecond,
   }
   ```
 
