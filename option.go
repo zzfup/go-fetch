@@ -24,6 +24,6 @@ func NewDefaultOptions() Options {
 			"Accept":          "*/*",
 		},
 		Body:    nil,
-		Timeout: 20 * time.Millisecond,
+		Timeout: 20 * time.Second,
 	}
 }

@@ -2,6 +2,7 @@ package fetch
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -26,18 +27,17 @@ func Fetch(url string, op Options) (Resp, error) {
 		defaultOp.Timeout = op.Timeout
 	}
 
+	fmt.Println(defaultOp)
+
 	// create a new http client
 	client := &http.Client{
 		Transport: &http.Transport{
-			Proxy: http.ProxyFromEnvironment,
-			DialContext: (&net.Dialer{
-				Timeout:   defaultOp.Timeout,
-				KeepAlive: defaultOp.Timeout,
-				DualStack: true,
-			}).DialContext,
-			MaxIdleConns:          100,
-			IdleConnTimeout:       defaultOp.Timeout,
-			TLSHandshakeTimeout:   defaultOp.Timeout,
+			Dial: (&net.Dialer{
+				Timeout:   30 * time.Second,
+				KeepAlive: 30 * time.Second,
+			}).Dial,
+			TLSHandshakeTimeout:   10 * time.Second,
+			ResponseHeaderTimeout: 10 * time.Second,
 			ExpectContinueTimeout: 1 * time.Second,
 		},
 		Timeout: defaultOp.Timeout,

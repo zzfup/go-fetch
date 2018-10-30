@@ -1,33 +1,22 @@
 package fetch
 
 import (
-	"reflect"
+	"fmt"
 	"testing"
 )
 
 func TestFetch(t *testing.T) {
-	type args struct {
-		url string
-		op  Options
+	url := "https://www.baidu.com"
+
+	options := Options{
+		Method: "GET",
+		// Header: headers,
+		// Timeout: 1 * time.Second,
 	}
-	tests := []struct {
-		name    string
-		args    args
-		want    Resp
-		wantErr bool
-	}{
-		// TODO: Add test cases.
+	resp, err := Fetch(url, options)
+	if err != nil {
+		fmt.Println("error")
+		fmt.Println(err)
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := Fetch(tt.args.url, tt.args.op)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("Fetch() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Fetch() = %v, want %v", got, tt.want)
-			}
-		})
-	}
+	fmt.Println(resp.ToString())
 }
