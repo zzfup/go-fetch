@@ -15,7 +15,8 @@ type Options struct {
 	Timeout time.Duration
 }
 
-func newDefaultOptions() Options {
+// NewDefaultOptions create a default options
+func NewDefaultOptions() Options {
 	return Options{
 		Method: "GET",
 		Header: map[string]string{

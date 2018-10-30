@@ -12,11 +12,19 @@ import (
 // url: Absolute url
 // op: Fetch options
 func Fetch(url string, op Options) (Resp, error) {
-	defaultOp := newDefaultOptions()
-	defaultOp.Method = op.Method
-	defaultOp.Header = op.Header
-	defaultOp.Body = op.Body
-	defaultOp.Timeout = op.Timeout
+	defaultOp := NewDefaultOptions()
+	if op.Method != "" {
+		defaultOp.Method = op.Method
+	}
+	if op.Header != nil {
+		defaultOp.Header = op.Header
+	}
+	if op.Body != nil {
+		defaultOp.Body = op.Body
+	}
+	if int(op.Timeout) != 0 {
+		defaultOp.Timeout = op.Timeout
+	}
 
 	// create a new http client
 	client := &http.Client{
