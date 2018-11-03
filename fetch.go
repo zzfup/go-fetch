@@ -2,7 +2,6 @@ package fetch
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -26,8 +25,6 @@ func Fetch(url string, op Options) (Resp, error) {
 	if int(op.Timeout) != 0 {
 		defaultOp.Timeout = op.Timeout
 	}
-
-	fmt.Println(defaultOp)
 
 	// create a new http client
 	client := &http.Client{
