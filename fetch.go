@@ -36,6 +36,7 @@ func Fetch(url string, op Options) (Resp, error) {
 			TLSHandshakeTimeout:   10 * time.Second,
 			ResponseHeaderTimeout: 10 * time.Second,
 			ExpectContinueTimeout: 1 * time.Second,
+			DisableKeepAlives:     true,
 		},
 		Timeout: defaultOp.Timeout,
 	}
